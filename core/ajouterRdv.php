@@ -17,7 +17,7 @@ echo "alert('please no empty fields!');";
 echo "</script>";
 	
 }
-else if (ctype_alnum($_POST['time'])==true && preg_match("/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/",$_POST['date']) && strtotime($_POST['date']) > strtotime('now'))
+else if (  strtotime($_POST['date']) > strtotime('now'))
 {
 	 $rdv1=new Rdv($_POST['date'],$_POST['time'],$_POST['refp'],$_POST['username']);
      $rdv1C=new RdvC();
@@ -31,7 +31,7 @@ else
 	
 	 //echo "nom doit etre une chaine!";
 	    echo "<script type='text/javascript'>";
-        echo " alert('Time can not contain symbols or please enter the date correctly!');";
+        echo " alert('please enter the date correctly!');";
         echo "</script>";
 }	
 }

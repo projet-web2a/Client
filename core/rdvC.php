@@ -142,5 +142,81 @@ class RdvC
             die('Erreur: '.$e->getMessage());
         }
 	}
+	
+	function trieRdv(){
+		$db = config::getConnexion();
+       		$sql="SELECT * FROM rdv order by date_rdv";
+
+		try{
+ 		$req=$db->prepare($sql);
+ 	    $req->execute();
+ 		$rdv= $req->fetchALL(PDO::FETCH_OBJ);
+		return $rdv;
+		}
+        catch (Exception $e){
+            die('Erreur: '.$e->getMessage());
+        }	
+    }
+	function trieRdvId(){
+		$db = config::getConnexion();
+       		$sql="SELECT * FROM rdv order by id_rdv";
+
+		try{
+ 		$req=$db->prepare($sql);
+ 	    $req->execute();
+ 		$rdv= $req->fetchALL(PDO::FETCH_OBJ);
+		return $rdv;
+		}
+        catch (Exception $e){
+            die('Erreur: '.$e->getMessage());
+        }	
+    }
+	
+    function rechercher1($dateRendezVous)
+    {   
+	    $db = config::getConnexion(); 
+        $sql="SELECT * from rdv where date_rdv = '$dateRendezVous' ";
+         //connexion bd
+        
+        //reqt sql
+        //fetch data
+        try
+        {
+        	$req=$db->prepare($sql);
+ 	    $req->execute();
+ 		$rdv= $req->fetchALL(PDO::FETCH_OBJ);
+		return $rdv;
+        }
+        catch (Exception $e)
+        {
+        	die('Erreur:'.$e->getMessage());
+        }
+    }
+	
+    function CountRdvMatin()
+    {
+        $db = config::getConnexion();
+        $req1 = $db->query("SELECT * FROM rdv Where DATE(date_rdv)= CURDATE() AND time_rdv < '12:00'");
+        return $req1->rowCount();
+    }
+	
+	 function CountRdvApresMidi()
+    {
+        $db = config::getConnexion();
+        $req1 = $db->query("SELECT * FROM rdv Where DATE(date_rdv)= CURDATE() AND time_rdv >= '12:00'");
+        return $req1->rowCount();
+    }
+	
+	 function VerifDateRdv()
+    {
+        $db = config::getConnexion();
+        $req = $db->query("DELETE FROM rdv Where DATE(date_rdv) < CURDATE()");
+       try{
+ 	    $req->execute();
+		}
+        catch (Exception $e){
+            die('Erreur: '.$e->getMessage());
+        }
+    }
 }
 ?>

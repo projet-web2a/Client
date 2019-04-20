@@ -106,7 +106,39 @@ class ClientC{
             die('Erreur: '.$e->getMessage());
         }
 	}
+	public function CountClientFemme()
+    {
+        $db = config::getConnexion();
+        $req1 = $db->query("SELECT * FROM client Where sexe='Female'");
+        return $req1->rowCount();
+    }
+
+    public function CountClientHomme()
+    {
+        $db = config::getConnexion();
+        $req1 = $db->query("SELECT * FROM client Where sexe='Male'");
+        return $req1->rowCount();
+    }
 	
-	
+	function rechercher1($foo)
+    {   
+	    $db = config::getConnexion(); 
+        $sql="SELECT * from client where prenom LIKE '%$foo%' or nom LIKE '%$foo%' or username LIKE '%$foo%' ";
+         //connexion bd
+        
+        //reqt sql
+        //fetch data
+        try
+        {
+        	$req=$db->prepare($sql);
+ 	    $req->execute();
+ 		$rdv= $req->fetchALL(PDO::FETCH_OBJ);
+		return $rdv;
+        }
+        catch (Exception $e)
+        {
+        	die('Erreur:'.$e->getMessage());
+        }
+    }
 }
 ?>

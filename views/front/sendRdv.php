@@ -303,11 +303,11 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     <div class="col mb-3">
      <label for="inputEmail4">Date</label>
 	 <input type="hidden" class="form-control" name="username" placeholder="yyyy-mm-dd" value="<?PHP echo $user ?>">
-      <input type="text" class="form-control" name="date" placeholder="yyyy-mm-dd">
+      <input type="date" class="form-control" name="date" placeholder="yyyy-mm-dd">
     </div>
     <div class="col mb-3">
      <label for="inputEmail5">Time</label>
-      <input type="text" class="form-control"  name="time" placeholder="example 12h">
+      <input type="time" class="form-control"  name="time" placeholder="example 12:00">
     </div>
     <div class="col mb-3">
      <label for="inputEmail5">Product Reference</label>

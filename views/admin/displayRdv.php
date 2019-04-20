@@ -2,6 +2,13 @@
 require "../../core/rdvC.php";
 $rdv1C=new RdvC();
 $listeRdv=$rdv1C->afficherRdv();
+$dataPoints = array(
+    array("label"=> "Matin", "y"=> (int)$rdv1C->CountRdvMatin()),
+    array("label"=> "Apres Midi", "y"=> (int)$rdv1C->CountRdvApresMidi())
+
+);
+$rdv1C->VerifDateRdv();
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -132,7 +139,7 @@ $listeRdv=$rdv1C->afficherRdv();
             <li><a href="index.html"> <i class="icon-home"></i>Home </a></li>
             <li><a href="tables.html"> <i class="icon-grid"></i>Produits </a></li>
             <li><a href="charts.html"> <i class="fa fa-bar-chart"></i>Commandes </a></li>
-            <li class="active"><a href="clients.php"> <i class="fa fa-users"></i>Clients </a></li>
+            <li ><a href="clients.php"> <i class="fa fa-users"></i>Clients </a></li>
             <li><a href="#exampledropdownDropdown" aria-expanded="false" data-toggle="collapse"> <i class="icon-interface-windows"></i>Marketing </a>
               <ul id="exampledropdownDropdown" class="collapse list-unstyled ">
                 <li><a href="#">Page</a></li>
@@ -144,7 +151,7 @@ $listeRdv=$rdv1C->afficherRdv();
             <li><a href="login.html"> <i class="icon-interface-windows"></i>Service aprés vente </a></li>
           </ul><span class="heading">Extras</span>
           <ul class="list-unstyled">
-            <li> <a href="displayRdv.php"> <i class="icon-mail"></i>RendezVous </a></li>
+            <li class="active"> <a href="displayRdv.php"> <i class="icon-mail"></i>RendezVous </a></li>
             <li> <a href="#"> <i class="icon-screen"></i>Demo </a></li>
             <li> <a href="#"> <i class="icon-mail"></i>Demo </a></li>
             <li> <a href="#"> <i class="icon-picture"></i>Demo </a></li>
@@ -163,7 +170,28 @@ $listeRdv=$rdv1C->afficherRdv();
               <li class="breadcrumb-item"><a href="index.html">Home</a></li>
               <li class="breadcrumb-item active">RendezVous</li>
             </ul>
-            <div class="card bg-light mb-3" style="max-width: 80rem;">
+			<form class="form-inline" method="POST" action="searchRdv.php">
+			
+    <input class="form-control mr-sm-2" type="date" placeholder="Search" aria-label="Search" name="search">
+    <button class="btn btn-outline-success my-2 my-sm-0" type="submit" >Search</button>
+	</form>
+	<p></p>
+	<div class="btn-group" style="width: 11%;">
+  <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    Trie
+  </button>
+  <div class="dropdown-menu">
+    <a class="dropdown-item" href="rdv_trie_date.php">Date</a>
+    <a class="dropdown-item" href="rdv_trie_id.php">Id</a>
+    <div class="dropdown-divider"></div>
+    
+  </div>
+</div>
+  
+			
+            <div class="card bg-light mb-3" style="width: 100%;">
+		<!-- Example single danger button -->
+
   <div class="card-header">RendezVous</div>
   <div class="card-body">
  
@@ -184,7 +212,7 @@ $listeRdv=$rdv1C->afficherRdv();
     <tr>
 	  <td> <?= $Rdv->id_rdv; ?> </td>
       <td> <?= $Rdv->date_rdv; ?> </td>
-	  <td> <?= $Rdv->time_rdv; ?> </td>
+	  <td> <?= $Rdv->time_rdv; ?></td>
       <td> <?= $Rdv->refProduit_rdv; ?> </td>
 	  <td> <?= $Rdv->username; ?> </td>
 	  <td> <?php if ($Rdv->etat==1) {echo "Yes";} else {echo "No";} ?> </td>
@@ -208,7 +236,33 @@ $listeRdv=$rdv1C->afficherRdv();
 </table>
   </div>
 </div>
+
           </div>
+		  	   <script>
+window.onload = function () {
+ 
+var chart = new CanvasJS.Chart("chartContainer", {
+  animationEnabled: true,
+  exportEnabled: true,
+  theme: "light2", // "light1", "light2", "dark1", "dark2"
+  title:{
+    text: "Today's RendezVous"
+  },
+  data: [{
+    type: "column", 
+    legendText: "{label}",
+    indexLabelFontSize: 16,
+    indexLabelFontColor: "#5A5757",
+    indexLabelPlacement: "outside",   
+    dataPoints: <?php echo json_encode($dataPoints, JSON_NUMERIC_CHECK); ?>
+  }]
+});
+chart.render();
+ 
+}
+</script>
+<div id="chartContainer" style="height: 370px; width: 100%;"></div>
+                <script src="../../lib/canvasjs.min.js"></script>
           <!-- Forms Section-->
           <section class="forms"> 
             <div class="container-fluid">
@@ -261,23 +315,13 @@ $listeRdv=$rdv1C->afficherRdv();
               </div>
             </div>
           </section>
+	
           <!-- Page Footer-->
-          <footer class="main-footer">
-            <div class="container-fluid">
-              <div class="row">
-                <div class="col-sm-6">
-                  <p>EyeZone</p>
-                </div>
-                <div class="col-sm-6 text-right">
-                  <p>&nbsp;</p>
-                  <!-- Please do not remove the backlink to us unless you support further theme's development at https://bootstrapious.com/donate. It is part of the license conditions. Thank you for understanding :)-->
-                </div>
-              </div>
-            </div>
-          </footer>
-        </div>
+                  </div>
       </div>
     </div>
+	
+  
     <!-- JavaScript files-->
     <script src="vendor/jquery/jquery.min.js"></script>
     <script src="vendor/popper.js/umd/popper.min.js"> </script>
@@ -287,5 +331,6 @@ $listeRdv=$rdv1C->afficherRdv();
     <script src="vendor/jquery-validation/jquery.validate.min.js"></script>
     <!-- Main File-->
     <script src="js/front.js"></script>
+	
   </body>
 </html>

@@ -58,16 +58,15 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 					</h1>
 				</div>
 		
-				<div class="col-md-2 top-info-cart text-right mt-lg-4">
+				<div class="col-md-2 top-info-cart text-right mt-lg-3">
 					<ul class="cart-inner-info">
 						<li class="button-log">
 							<a class="btn-open" href="#">
-								<span class="fa fa-user" aria-hidden="true"></span>
+								<span class="fa fa-user" style="font-size:22px" aria-hidden="true"></span>
 							</a>
 						</li>
-		
-						
 					</ul>
+					
 				</div>
 				
 <div class="dropdown">
@@ -80,6 +79,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     <form action="Profil.php" method="get"> <a class="dropdown-item" href="Profil.php?username=<?= $user ?>">My Profile</a> </form>
   </div>
 </div>	
+
 			
 					<!---->
 					<div class="overlay-login text-left">

@@ -1,20 +1,21 @@
 <?PHP
-require "../../core/clientC.php";
-$client1C=new clientC();
-$listeClients=$client1C->afficherClient();
-$dataPoints = array(
-    array("label"=> "Female", "y"=> (int)$client1C->CountClientFemme()),
-    array("label"=> "Male", "y"=> (int)$client1C->CountClientHomme())
-
-);
+require "../../core/rdvC.php";
+$rdv1C=new RdvC();
+$listeRdv=$rdv1C->afficherRdv();
+if(isset($_POST['search']))
+    { $val=$_POST['search'];
+      $time = preg_replace("!([01][0-9])/([0-9]{2})/([0-9]{4})!", "$3-$1-$2", $val);
+      $date = date("Y-m-d", strtotime($time));
+      $pe=new RdvC();
+      $liste2=$pe->rechercher1($date);
+}
 ?>
-
 <!DOCTYPE html>
 <html>
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>EyeZone | Clients</title>
+    <title>EyeZone | RendezVous</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="robots" content="all,follow">
@@ -138,7 +139,7 @@ $dataPoints = array(
             <li><a href="index.html"> <i class="icon-home"></i>Home </a></li>
             <li><a href="tables.html"> <i class="icon-grid"></i>Produits </a></li>
             <li><a href="charts.html"> <i class="fa fa-bar-chart"></i>Commandes </a></li>
-            <li class="active"><a href="forms.html"> <i class="fa fa-users"></i>Clients </a></li>
+            <li ><a href="clients.php"> <i class="fa fa-users"></i>Clients </a></li>
             <li><a href="#exampledropdownDropdown" aria-expanded="false" data-toggle="collapse"> <i class="icon-interface-windows"></i>Marketing </a>
               <ul id="exampledropdownDropdown" class="collapse list-unstyled ">
                 <li><a href="#">Page</a></li>
@@ -150,7 +151,7 @@ $dataPoints = array(
             <li><a href="login.html"> <i class="icon-interface-windows"></i>Service aprés vente </a></li>
           </ul><span class="heading">Extras</span>
           <ul class="list-unstyled">
-            <li> <a href="displayRdv.php"> <i class="icon-mail"></i>RendezVous </a></li>
+            <li class="active"> <a href="displayRdv.php"> <i class="icon-mail"></i>RendezVous </a></li>
             <li> <a href="#"> <i class="icon-screen"></i>Demo </a></li>
             <li> <a href="#"> <i class="icon-mail"></i>Demo </a></li>
             <li> <a href="#"> <i class="icon-picture"></i>Demo </a></li>
@@ -160,52 +161,75 @@ $dataPoints = array(
           <!-- Page Header-->
           <header class="page-header">
             <div class="container-fluid">
-              <h2 class="no-margin-bottom">Clients</h2>
+              <h2 class="no-margin-bottom">RendezVous</h2>
             </div>
           </header>
           <!-- Breadcrumb-->
           <div class="breadcrumb-holder container-fluid">
             <ul class="breadcrumb">
               <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-              <li class="breadcrumb-item active">Clients</li>
+              <li class="breadcrumb-item active">RendezVous</li>
             </ul>
-			<form class="form-inline" method="POST" action="searchClient.php">
+			<form class="form-inline" method="POST" action="searchRdv.php">
 			
-    <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search" name="search">
+    <input class="form-control mr-sm-2" type="date" placeholder="Search" aria-label="Search" name="search">
     <button class="btn btn-outline-success my-2 my-sm-0" type="submit" >Search</button>
 	</form>
+	<p></p>
+	<div class="btn-group" style="width: 11%;">
+  <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    Trie
+  </button>
+  <div class="dropdown-menu">
+    <a class="dropdown-item" href="rdv_trie_date.php">Date</a>
+    <a class="dropdown-item" href="rdv_trie_id.php">Id</a>
+    <div class="dropdown-divider"></div>
+    
+  </div>
+</div>
+  
+			
             <div class="card bg-light mb-3" style="width: 100%;">
-  <div class="card-header">Clients</div>
+		<!-- Example single danger button -->
+
+  <div class="card-header">RendezVous</div>
   <div class="card-body">
  
    <table class="table table-bordered table-dark">
   <thead>
     <tr>
-      <th scope="col" class="bg-primary">First</th>
-      <th scope="col" class="bg-primary">Last</th>
-      <th scope="col" class="bg-primary">Username</th>
-      <th scope="col" class="bg-primary">Pwd</th>
-	  <th scope="col" class="bg-primary">email</th>
-	  <th scope="col" class="bg-primary">Mobile.N</th>
-	  <th scope="col" class="bg-primary">City</th>
-	  <th scope="col" class="bg-primary">Gender</th>
-	  <th scope="col" class="bg-primary">Fidelite</th>
-	  <th scope="col" class="bg-primary">Points</th>
+      <th scope="col" class="bg-primary">Id</th>
+      <th scope="col" class="bg-primary">Date</th>
+      <th scope="col" class="bg-primary">Time</th>
+      <th scope="col" class="bg-primary">Product.Ref</th>
+	  <th scope="col" class="bg-primary">Client Username</th>
+	  <th scope="col" class="bg-primary">Confirmed</th>
+	  <th scope="col" class="bg-primary">Action</th>
     </tr>
   </thead>
   <tbody>
-<?php foreach($listeClients as $Clients): ?>
+<?php foreach($liste2 as $Rdv): ?>
     <tr>
-      <td> <?= $Clients->prenom; ?> </td>
-	  <td> <?= $Clients->nom ?> </td>
-      <td> <?= $Clients->username; ?> </td>
-      <td> <?= $Clients->pwd; ?> </td>
-      <td> <?= $Clients->email; ?> </td>
-	  <td> <?= $Clients->num; ?> </td>
-	  <td> <?= $Clients->city; ?> </td>
-	  <td> <?= $Clients->sexe; ?> </td>
-    <td> <?php if ($Clients->fidelite==1) {echo "Yes";} else {echo "No";} ?> </td>
-	<td> <?php if ($Clients->points==0) {echo "0";} else {echo "$Clients->points";} ?> </td>
+	  <td> <?= $Rdv->id_rdv; ?> </td>
+      <td> <?= $Rdv->date_rdv; ?> </td>
+	  <td> <?= $Rdv->time_rdv; ?></td>
+      <td> <?= $Rdv->refProduit_rdv; ?> </td>
+	  <td> <?= $Rdv->username; ?> </td>
+	  <td> <?php if ($Rdv->etat==1) {echo "Yes";} else {echo "No";} ?> </td>
+	  
+	  
+      <td>
+              <a  href="confirmRdv.php?idR=<?= $Rdv->id_rdv ?>" class="	fa fa-thumbs-o-up" style="font-size:36px"></a>
+			  <a> </a>
+			  <a> </a>
+			  <a> </a>
+			  <a> </a>
+			  <a> </a>
+			  <a  href="deleteRdv.php?idR=<?= $Rdv->id_rdv ?>" class="	fa fa-thumbs-down" style="font-size:36px"></a>
+			  
+			  
+      </td>
+    
     </tr>
   </tbody>
             <?php endforeach; ?>
@@ -213,35 +237,6 @@ $dataPoints = array(
   </div>
 </div>
           </div>
-		  <script>
-                    window.onload = function () {
-
-                        var chart = new CanvasJS.Chart("chartContainer", {
-							theme: "light2",
-                            animationEnabled: true,
-                            exportEnabled: true,
-                            title:{
-                                text: "Clients"
-                            },
-                            subtitles: [{
-                                text: "Gender"
-                            }],
-                            data: [{
-                                type: "pie",
-                                showInLegend: "true",
-                                legendText: "{label}",
-                                indexLabelFontSize: 16,
-                                indexLabel: "{label} - #percent%",
-                                yValueFormatString: "฿#,##0",
-                                dataPoints: <?php echo json_encode($dataPoints, JSON_NUMERIC_CHECK); ?>
-                            }]
-                        });
-                        chart.render();
-
-                    }
-                </script>
-                <div id="chartContainer" style="height: 370px; width: 100%;"></div>
-                <script src="../../lib/canvasjs.min.js"></script>
           <!-- Forms Section-->
           <section class="forms"> 
             <div class="container-fluid">
@@ -295,11 +290,22 @@ $dataPoints = array(
             </div>
           </section>
           <!-- Page Footer-->
-          
+          <footer class="main-footer">
+            <div class="container-fluid">
+              <div class="row">
+                <div class="col-sm-6">
+                  <p>EyeZone</p>
+                </div>
+                <div class="col-sm-6 text-right">
+                  <p>&nbsp;</p>
+                  <!-- Please do not remove the backlink to us unless you support further theme's development at https://bootstrapious.com/donate. It is part of the license conditions. Thank you for understanding :)-->
+                </div>
+              </div>
+            </div>
+          </footer>
         </div>
       </div>
     </div>
-	
     <!-- JavaScript files-->
     <script src="vendor/jquery/jquery.min.js"></script>
     <script src="vendor/popper.js/umd/popper.min.js"> </script>
@@ -309,6 +315,5 @@ $dataPoints = array(
     <script src="vendor/jquery-validation/jquery.validate.min.js"></script>
     <!-- Main File-->
     <script src="js/front.js"></script>
-	
   </body>
 </html>

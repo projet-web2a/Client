@@ -2,11 +2,12 @@
 require "../../core/clientC.php";
 $client1C=new clientC();
 $listeClients=$client1C->afficherClient();
-$dataPoints = array(
-    array("label"=> "Female", "y"=> (int)$client1C->CountClientFemme()),
-    array("label"=> "Male", "y"=> (int)$client1C->CountClientHomme())
-
-);
+if(isset($_POST['search']))
+    { $val=$_POST['search'];
+      
+      $pe=new clientC();
+      $liste2=$pe->rechercher1($val);
+}
 ?>
 
 <!DOCTYPE html>
@@ -194,7 +195,7 @@ $dataPoints = array(
     </tr>
   </thead>
   <tbody>
-<?php foreach($listeClients as $Clients): ?>
+<?php foreach($liste2 as $Clients): ?>
     <tr>
       <td> <?= $Clients->prenom; ?> </td>
 	  <td> <?= $Clients->nom ?> </td>
@@ -213,33 +214,7 @@ $dataPoints = array(
   </div>
 </div>
           </div>
-		  <script>
-                    window.onload = function () {
-
-                        var chart = new CanvasJS.Chart("chartContainer", {
-							theme: "light2",
-                            animationEnabled: true,
-                            exportEnabled: true,
-                            title:{
-                                text: "Clients"
-                            },
-                            subtitles: [{
-                                text: "Gender"
-                            }],
-                            data: [{
-                                type: "pie",
-                                showInLegend: "true",
-                                legendText: "{label}",
-                                indexLabelFontSize: 16,
-                                indexLabel: "{label} - #percent%",
-                                yValueFormatString: "฿#,##0",
-                                dataPoints: <?php echo json_encode($dataPoints, JSON_NUMERIC_CHECK); ?>
-                            }]
-                        });
-                        chart.render();
-
-                    }
-                </script>
+		
                 <div id="chartContainer" style="height: 370px; width: 100%;"></div>
                 <script src="../../lib/canvasjs.min.js"></script>
           <!-- Forms Section-->
