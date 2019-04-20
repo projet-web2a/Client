@@ -24,7 +24,9 @@ $count = mysqli_num_rows($result);
 $row_data = mysqli_fetch_array($result);
 $to =$row_data['email'];
 $subject = "RendezVous EyeZone";
-$messageBody ="Your request RendezVous is confirmed by EyeZone .";
+$messageBody =file_get_contents('mailBody.php');
+
+
 if( $count ==0){
         echo"Jointurek ghalta";
         return;
@@ -43,7 +45,7 @@ if( $count ==0){
         $mail->Password = "Zayn@malik98";
         $mail->SetFrom("eyarabeh98@gmail.com", "EyeZone");
         $mail->Subject = $subject;
-
+        $mail->AddEmbeddedImage('img/eyezone1.png','logo');
         $mail->Body = $messageBody;
         $mail->AddAddress($to);
 		
