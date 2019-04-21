@@ -1,5 +1,5 @@
 <?PHP
-require 'config.php';
+require_once 'config.php';
 class RdvC
 {
 	function ajouterRdv($rdv){
@@ -217,6 +217,28 @@ class RdvC
         catch (Exception $e){
             die('Erreur: '.$e->getMessage());
         }
+    }
+	
+	function CountRdvNotConfirmed()
+    {
+        $db = config::getConnexion();
+        $req1 = $db->query("SELECT * FROM rdv Where DATE(date_rdv)= CURDATE() AND etat IS NULL");
+        return $req1->rowCount();
+    }
+	
+	function trieRdvTime(){
+		$db = config::getConnexion();
+       		$sql="SELECT * FROM rdv order by date_rdv, time_rdv";
+
+		try{
+ 		$req=$db->prepare($sql);
+ 	    $req->execute();
+ 		$rdv= $req->fetchALL(PDO::FETCH_OBJ);
+		return $rdv;
+		}
+        catch (Exception $e){
+            die('Erreur: '.$e->getMessage());
+        }	
     }
 }
 ?>

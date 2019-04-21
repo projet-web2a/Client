@@ -39,7 +39,7 @@
                                                 <!-- begin content -->
                                                 <img src="cid:logo" width="140" height="90" alt="" style="display:block; border:0; margin:0 0 44px; background:#ffffff;">
                                                 <p style="margin:0 30px 33px;; text-align:center; text-transform:uppercase; font-size:24px; line-height:30px; font-weight:bold; color:#484a42;">
-                                                    RendezVous Confirmed
+                                                    Rendez-Vous Confirmed
                                                 </p>
                                                 <!-- begin articles -->
                                                   <table cellpadding="0" cellspacing="0" border="0" width="100%">

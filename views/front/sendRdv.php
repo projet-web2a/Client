@@ -1,5 +1,6 @@
+<?php  session_start(); ?>
 <?php
-if(empty($_GET["username"]))
+if(empty($_SESSION["username"]))
 {
 	echo "<script type='text/javascript'>";
 echo "alert('please login first!');
@@ -10,7 +11,32 @@ echo "</script>";
 }
 else
 {
-$user=$_GET["username"];
+$user=$_SESSION["username"];
+}
+function getnames()
+{
+	$str='';
+	$names=getdata();
+	foreach($names as $name)
+    {
+		$str.='<option value="'.$name.'">'.$name.'</option>';
+		
+	}	
+	return $str;
+}
+function getdata()
+{
+	$names=array();
+    $db= mysqli_connect("localhost","root","","projet_web");
+    $sql="select refe from produit ";
+    $result = mysqli_query($db,$sql);	
+	while ($obj=mysqli_fetch_object($result))
+	{
+		
+		$names[]=$obj->refe;
+		
+	}
+	return $names;
 }
 ?>
 <!DOCTYPE html>
@@ -57,7 +83,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 					</ul>
 				</div>
 				<div class="col-md-6 logo-w3layouts text-center">
-				  <h1 class="logo-w3layouts"><a class="navbar-brand" href="index1.php?username=<?= $user ?>">eyezone</a></h1>
+				  <h1 class="logo-w3layouts"><a class="navbar-brand" href="index1.php?action=yes">eyezone</a></h1>
 				</div>
 
 				<div class="col-md-3 top-info-cart text-right mt-lg-4">
@@ -109,7 +135,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				<div class="collapse navbar-collapse" id="navbarSupportedContent">
 					<ul class="navbar-nav nav-mega mx-auto">
 						<li class="nav-item">
-							<a class="nav-link ml-lg-0" href="index1.php?username=<?= $user ?>">Home
+							<a class="nav-link ml-lg-0" href="index1.php?action=yes">Home
 								<span class="sr-only">(current)</span>
 							</a>
 						</li>
@@ -275,7 +301,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
 					<ul class="short">
 						<li>
-							<a href="index1.php?username=<?= $user ?>">Home</a>
+							<a href="index1.php?action=yes">Home</a>
 							<i>|</i>
 						</li>
 						<li>Rendezvous</li>
@@ -294,7 +320,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
  <div class="card-header">
  <div class="inner-sec-shop px-lg-4 px-3">
 			  <h3 class="tittle-w3layouts text-left my-lg-4 my-3">Rendezvous</h3>
-			 <a href="dispalyRdvFront.php?username=<?= $user ?>">
+			 <a href="dispalyRdvFront.php?action=yes">
 			Check My RendezVous</a>
 	</div>
 <div class="card-body mb-3" style="max-width: 54rem;">
@@ -311,7 +337,9 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     </div>
     <div class="col mb-3">
      <label for="inputEmail5">Product Reference</label>
-      <input type="text" class="form-control" name="refp" placeholder="Product Reference">
+      <select name="names" class="custom-select my-1 mr-sm-2">
+<?php echo getnames();?>
+</select>
     </div>
   </div>
   <div><button type="submit" "value="rdv" name="rdv" class="btn btn-primary submit mb-3" style="float: left; background-color:#F25613" onclick="verifRdv()">Send Request</button>
@@ -393,7 +421,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 					</div>
 					<ul class="links">
 						<li>
-							<a href="index1.php?username=<?= $user ?>">Home</a>
+							<a href="index1.php?action=yes">Home</a>
 						</li>
 						<li>
 							<a href="about.html">About</a>

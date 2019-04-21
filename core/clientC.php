@@ -1,5 +1,5 @@
 <?PHP
-require 'config.php';
+require_once 'config.php';
 class ClientC{
 	function ajouterClient($client){
 		$sql="insert into client (prenom,nom,username,pwd,email,num,city,sexe) values (:prenom,:nom,:id,:p,:em,:n,:c,:s)";
@@ -139,6 +139,18 @@ class ClientC{
         {
         	die('Erreur:'.$e->getMessage());
         }
+    }
+function verifierlogin($user,$p)
+    {   
+	    $db = config::getConnexion(); 
+        $sql="SELECT username,pwd from client where username= :u and pwd= :p  LIMIT 1 ";
+        $req=$db->prepare($sql);
+	    $req->bindValue(':u',$user);
+		$req->bindValue(':p',$p);
+ 	    $req->execute();
+ 		$result= $req->fetchALL(PDO::FETCH_OBJ);
+		return $result;
+       
     }
 }
 ?>

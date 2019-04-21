@@ -1,12 +1,13 @@
+<?php  session_start(); ?>
 <?PHP
 require "../../core/rdvC.php";
-if(empty($_GET["username"]))
+if(empty($_SESSION["username"]))
 {
 	
 }
 else
 {
-$user=$_GET["username"];
+$user=$_SESSION["username"];
 $rdv1C=new RdvC();
 $listeRdv=$rdv1C->afficherRdvFront($user);
 }
@@ -55,7 +56,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 					</ul>
 				</div>
 				<div class="col-md-6 logo-w3layouts text-center">
-				  <h1 class="logo-w3layouts"><a class="navbar-brand" href="index1.php?username=<?= $user ?>">eyezone</a></h1>
+				  <h1 class="logo-w3layouts"><a class="navbar-brand" href="index1.php?action=yes">eyezone</a></h1>
 				</div>
 
 				<div class="col-md-3 top-info-cart text-right mt-lg-4">
@@ -107,7 +108,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				<div class="collapse navbar-collapse" id="navbarSupportedContent">
 					<ul class="navbar-nav nav-mega mx-auto">
 						<li class="nav-item">
-							<a class="nav-link ml-lg-0" href="index1.php?username=<?= $user ?>">Home
+							<a class="nav-link ml-lg-0" href="index1.php?action=yes">Home
 								<span class="sr-only">(current)</span>
 							</a>
 						</li>
@@ -273,7 +274,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
 					<ul class="short">
 						<li>
-							<a href="index1.php?username=<?= $user ?>">Home</a>
+							<a href="index1.php?action=yes">Home</a>
 							<i>|</i>
 						</li>
 						<li>Rendezvous</li>
@@ -292,7 +293,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
  <div class="card-header">
  <div class="inner-sec-shop px-lg-4 px-3">
 			  <h3 class="tittle-w3layouts text-left my-lg-4 my-3">Rendezvous</h3>
-			 <a href="sendRdv.php?username=<?= $user ?>">
+			 <a href="sendRdv.php?action=yes">
 			Send Request</a>
 	</div>
 <div class="card-body mb-3" style="max-width: 54rem;">
@@ -400,7 +401,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 					</div>
 					<ul class="links">
 						<li>
-							<a href="index1.php?username=<?= $user ?>">Home</a>
+							<a href="index1.php?action=yes">Home</a>
 						</li>
 						<li>
 							<a href="about.html">About</a>

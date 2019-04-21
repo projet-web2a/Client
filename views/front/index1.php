@@ -1,11 +1,13 @@
+<?php  session_start(); ?>
 <?php
-if(empty($_GET["username"]))
+if(empty($_SESSION["username"]))
 {
 	$user='';
+	
 }
 else
 {
-$user=$_GET["username"];
+$user=$_SESSION["username"];
 }
 ?>
 <!DOCTYPE html>
@@ -76,7 +78,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
   </button>
   <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
     <a class="dropdown-item" href="checkout.html">My Cart</a>
-    <form action="Profil.php" method="get"> <a class="dropdown-item" href="Profil.php?username=<?= $user ?>">My Profile</a> </form>
+    <form action="Profil.php" method="get"> <a class="dropdown-item" href="Profil.php?action=yes">My Profile</a> </form> 
+	 <a class="dropdown-item" href="../../core/logoutFront.php" >Logout</a>
   </div>
 </div>	
 
@@ -89,7 +92,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						<div class="wrap">
 							<h5 class="text-center mb-4">Login Now</h5>
 							<div class="login p-5 bg-dark mx-auto mw-100">
-								<form  name="login"  method="post">
+								<form  name="login"  method="post" action="../../core/verifierLoginFront.php">
 									<div class="form-group">
 									  <label class="mb-2">User Name</label>
 									  <input type="text" name ="username" class="form-control" id="exampleInputUser" aria-describedby="emailHelp" placeholder="" required="">
@@ -298,7 +301,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 							<a class="nav-link" href="contact.html">Contact</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" href="sendRdv.php?username=<?= $user ?>">rendezvous</a>
+							<a class="nav-link" href="sendRdv.php?action=yes">rendezvous</a>
 						</li>
 					</ul>
 
@@ -1812,33 +1815,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
 	<script src="js/bootstrap.js"></script>
 	<!-- js file -->
-	<?php
-      if (isset($_POST['login']))
-	  {
-		  $user=$_POST['username'];
-		  $p=$_POST['pwd'];
-		  $db= mysqli_connect("localhost","root","","projet_web");
-		  $sql="SELECT * from client where username='$user' and pwd='$p' ";
-		  $result = mysqli_query($db,$sql);
-          $count = mysqli_num_rows($result);
-		  if( $count ==0){
-             echo "<script type='text/javascript'>";
-             echo "alert('Username or password is incorrect!');
-             window.location.href='index1.php';";
-             echo "</script>";
-              return;
-            }
-			else 
-			{
-		     echo "<script type='text/javascript'>";
-             echo "alert('Welcome!');
-             window.location.href='Profil.php?username=$user';";
-             echo "</script>";
-              return;
-			}
-	  }
-	  
-	?>
+	
 </body>
 
 </html>

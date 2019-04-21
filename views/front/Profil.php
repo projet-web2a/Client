@@ -1,9 +1,9 @@
+<?php  session_start(); ?>
 <?php 
- 
 require "../../entities/client.php";
 require "../../core/clientC.php";
 
-if(empty($_GET["username"]))
+if(empty($_SESSION["username"]))
 {
 	echo "<script type='text/javascript'>";
 echo "alert('please login first!');
@@ -13,7 +13,7 @@ echo "</script>";
 }
 else
 {
-	$user=$_GET["username"];
+	$user=$_SESSION["username"];
 $clientC=new ClientC();
 $result=$clientC->recupererClient($user);
 foreach($result as $client) { 
@@ -101,7 +101,7 @@ foreach($result as $client) {
   </div>
  <button type="submit"   name="Modify" class="btn btn-primary submit mb-4" style="background-color:#F25613" >Edit</button>
   <div><button type="submit"  value="Sign Up" name="Delete" class="btn btn-primary submit mb-4" style="background-color:#F25613" >Desactivate my Account</button></div> 
-   <label for="inputCity">Want to go back ?</label><a href="index1.php?username=<?= $client->username ?>">
+   <label for="inputCity">Want to go back ?</label><a href="index1.php?action=yes">
 			Home</a><a href="../Projet%20web/front/index.html"> </a>
 </form>
   </div>

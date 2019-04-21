@@ -8,6 +8,9 @@ if(isset($_POST['search']))
       $pe=new clientC();
       $liste2=$pe->rechercher1($val);
 }
+require "../../core/rdvC.php";
+$rdv1C=new RdvC();
+$n=$rdv1C->CountRdvNotConfirmed();
 ?>
 
 <!DOCTYPE html>
@@ -53,7 +56,7 @@ if(isset($_POST['search']))
             <div class="navbar-holder d-flex align-items-center justify-content-between">
               <!-- Navbar Header-->
               <div class="navbar-header">
-                <!-- Navbar Brand --><a href="index.html" class="navbar-brand d-none d-sm-inline-block">
+                <!-- Navbar Brand --><a href="index.php" class="navbar-brand d-none d-sm-inline-block">
                   <div class="brand-text d-none d-lg-inline-block"> EyeZone</div>
                   <div class="brand-text d-none d-sm-inline-block d-lg-none"><strong>BD</strong></div></a>
                 <!-- Toggle Button--><a id="toggle-btn" href="#" class="menu-btn active"><span></span><span></span><span></span></a>
@@ -63,11 +66,11 @@ if(isset($_POST['search']))
                 <!-- Search-->
                 <li class="nav-item d-flex align-items-center"><a id="search" href="#"><i class="icon-search"></i></a></li>
                 <!-- Notifications-->
-                <li class="nav-item dropdown"> <a id="notifications" rel="nofollow" data-target="#" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link"><i class="fa fa-bell-o"></i><span class="badge bg-red badge-corner">12</span></a>
+                <li class="nav-item dropdown"> <a id="notifications" rel="nofollow" data-target="#" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link"><i class="fa fa-bell-o"></i><span class="badge bg-red badge-corner"><?php if($n==0){echo"12";}else{echo"13";}?></span></a>
                   <ul aria-labelledby="notifications" class="dropdown-menu">
                     <li><a rel="nofollow" href="#" class="dropdown-item"> 
                         <div class="notification">
-                          <div class="notification-content"><i class="fa fa-envelope bg-green"></i>You have 6 new messages </div>
+                           <div class="notification-content"><i class="fa fa-calendar-times-o bg-green"></i>You have <?= $n; ?> unconfirmed rdv for today</div>
                           <div class="notification-time"><small>4 minutes ago</small></div>
                         </div></a></li>
                     <li><a rel="nofollow" href="#" class="dropdown-item"> 
@@ -136,10 +139,10 @@ if(isset($_POST['search']))
           </div>
           <!-- Sidebar Navidation Menus--><span class="heading">Main</span>
           <ul class="list-unstyled">
-            <li><a href="index.html"> <i class="icon-home"></i>Home </a></li>
+            <li><a href="index.php"> <i class="icon-home"></i>Home </a></li>
             <li><a href="tables.html"> <i class="icon-grid"></i>Produits </a></li>
             <li><a href="charts.html"> <i class="fa fa-bar-chart"></i>Commandes </a></li>
-            <li class="active"><a href="forms.html"> <i class="fa fa-users"></i>Clients </a></li>
+            <li class="active"><a href="clients.php"> <i class="fa fa-users"></i>Clients </a></li>
             <li><a href="#exampledropdownDropdown" aria-expanded="false" data-toggle="collapse"> <i class="icon-interface-windows"></i>Marketing </a>
               <ul id="exampledropdownDropdown" class="collapse list-unstyled ">
                 <li><a href="#">Page</a></li>
@@ -167,7 +170,7 @@ if(isset($_POST['search']))
           <!-- Breadcrumb-->
           <div class="breadcrumb-holder container-fluid">
             <ul class="breadcrumb">
-              <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+              <li class="breadcrumb-item"><a href="index.php">Home</a></li>
               <li class="breadcrumb-item active">Clients</li>
             </ul>
 			<form class="form-inline" method="POST" action="searchClient.php">
@@ -190,8 +193,7 @@ if(isset($_POST['search']))
 	  <th scope="col" class="bg-primary">Mobile.N</th>
 	  <th scope="col" class="bg-primary">City</th>
 	  <th scope="col" class="bg-primary">Gender</th>
-	  <th scope="col" class="bg-primary">Fidelite</th>
-	  <th scope="col" class="bg-primary">Points</th>
+
     </tr>
   </thead>
   <tbody>
@@ -205,8 +207,7 @@ if(isset($_POST['search']))
 	  <td> <?= $Clients->num; ?> </td>
 	  <td> <?= $Clients->city; ?> </td>
 	  <td> <?= $Clients->sexe; ?> </td>
-    <td> <?php if ($Clients->fidelite==1) {echo "Yes";} else {echo "No";} ?> </td>
-	<td> <?php if ($Clients->points==0) {echo "0";} else {echo "$Clients->points";} ?> </td>
+
     </tr>
   </tbody>
             <?php endforeach; ?>
