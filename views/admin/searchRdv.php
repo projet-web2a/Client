@@ -68,8 +68,8 @@ $n=$rdv1C->CountRdvNotConfirmed();
                   <ul aria-labelledby="notifications" class="dropdown-menu">
                     <li><a rel="nofollow" href="#" class="dropdown-item"> 
                         <div class="notification">
-                         <div class="notification-content"><i class="fa fa-calendar-times-o bg-green"></i>You have <?= $n; ?> unconfirmed rdv for today</div>
-                          <div class="notification-time"><small>4 minutes ago</small></div>
+                         <?php if($n!=0){?> <div class="notification-content"><i class="fa fa-calendar-times-o bg-green"></i>You have <?= $n; ?> unconfirmed rdv for today</div>
+                          <div class="notification-time"><small>4 minutes ago</small></div><?php } ?>
                         </div></a></li>
                     <li><a rel="nofollow" href="#" class="dropdown-item"> 
                         <div class="notification">

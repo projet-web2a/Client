@@ -13,7 +13,8 @@ var_dump($employe1);
 if($_POST['date']=="" or $_POST['time']=="" or $_POST['names']=="")
 {
 	echo "<script type='text/javascript'>";
-echo "alert('please no empty fields!');";
+echo "alert('Please no empty fields!!');
+             window.location.href='../views/front/sendRdv.php';";
 echo "</script>";
 	
 }
@@ -23,6 +24,7 @@ else if (  strtotime($_POST['date']) > strtotime('now'))
      $rdv1C=new RdvC();
      $rdv1C->ajouterRdv($rdv1);
      //header('Location: ../views/front/sendRdv.php');
+	 echo '<meta http-equiv="refresh" content="0; URL=../views/front/dispalyRdvFront.php" />';
 		
      
 }
@@ -31,7 +33,8 @@ else
 	
 	 //echo "nom doit etre une chaine!";
 	    echo "<script type='text/javascript'>";
-        echo " alert('please enter the date correctly!');";
+       echo "alert('Please enter the date correctly!!');
+             window.location.href='../views/front/sendRdv.php';";
         echo "</script>";
 }	
 }

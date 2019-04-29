@@ -66,7 +66,7 @@ class RdvC
 	}
 	
 	function afficherRdvFront($user){
-		$sql="SELECT * FROM rdv WHERE username = '$user' ";
+		$sql="SELECT * FROM rdv WHERE username = '$user' order by date_rdv";
 	$db = config::getConnexion();
 		try{
 		$req=$db->prepare($sql);
